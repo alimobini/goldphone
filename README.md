@@ -11,34 +11,48 @@ In fact, The Apple Push server is the only one who can access iOS devices sendin
 # How to Setup:
 In order to use our services in your SIP Server, please follow this instructions:
 1.	First, you must set up authentication for your asterisk manager and change sth as below:
+
 Uncomment enable option in /etc/asterisk/manager.conf 
+
 Enable = yes
+
 Add this to the end of file:
+
 [admin]
+
 secret = password
+
 read = config,all
+
 write = config,all
 
 2.	Configure your dialplan:
 
 You should call our sip push notification service in your dial plan (/etc/asterisk/extensions.conf) and manage your calls after using this service as below:
+
 ….
+
 same => n,AGI(GoldPush.php)
+
 same => n,Gotoif($["${SIPPush}" = "Yes"]?M:N) 
+
 same => n(M),StartMusicOnHold(goldnet)
+
 same => n,Wait(20)
+
 same => n,Dial(SIP/${EXTEN})
-same => n,Hangup()
-same => n(N),Dial(SIP/${EXTEN},45,tr)
+
 same => n,Hangup()
 
+same => n(N),Dial(SIP/${EXTEN},45,tr)
+
+same => n,Hangup()
+
+
 3.	Upload GoldNet SIP Push Notification service:
+
 At the end, upload our PHPAGI in your sip server and the required files in the /var/lib/asterisk/agi-bin/ directory and configure required permission for them as below:
 
 Chmod 777 /var/lib/asterisk/agi-bin/GoldPush.php
 
 Remember that asterisk manager configuration (user and password set at part 1) must configure in GoldPush.php file.
-
-
-
-
