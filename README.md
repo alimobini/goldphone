@@ -12,12 +12,19 @@ How to Setup:
 In order to use our services in your SIP Server, please follow this instructions:
 1.	First, you must set up authentication for your asterisk manager and change sth as below:
 Uncomment enable option in /etc/asterisk/manager.conf 
+
 Enable = yes
+
 Add this to the end of file:
+
 [admin]
+
 secret = password
+
 read = config,all
+
 write = config,all
+
 
 2.	Configure your dialplan:
 You should call our sip push notification service in your dial plan (/etc/asterisk/extensions.conf) and manage your calls after using this service as below:
